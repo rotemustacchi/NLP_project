@@ -27,5 +27,4 @@ pip install -r requirements.txt
 python main.py
 ```
 
-## 🖼️ Graphical Abstract
-![Project Overview](graphical_abstract/project_diagram.png)
+
