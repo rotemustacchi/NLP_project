@@ -1,41 +1,44 @@
 # 🧪 Toxic Language Detection
 
-Detecting toxic messages in online chat using machine learning and transformers.  
-This project compares classic ML models and transformer-based models on the [Jigsaw Toxic Comment Classification](https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge) dataset.
+Detecting toxic messages in online chat using multiple NLP models and zero-shot classification.
 
 ---
 
 ## 📂 Dataset
-- Source: Kaggle — Jigsaw Toxic Comment Classification Challenge  
-- 150,000+ comments labeled as `toxic` (1) or `non-toxic` (0)
+
+- Source: [Jigsaw Toxic Comment Classification Challenge (Kaggle)](https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge)  
+- 150,000+ comments labeled as toxic (1) or non-toxic (0)
 
 ---
 
 ## 🧠 Models Used
 
-| Model               | Type             | Notes                        |
-|--------------------|------------------|-------------------------------|
-| Naive Bayes        | Traditional ML   | TF-IDF baseline               |
-| Logistic Regression| Traditional ML   | Improved precision & recall  |
-| DistilBERT         | Transformer (Hugging Face) | Fine-tuned on GPU       |
-| Azure Content Moderator | API | REST-based toxicity detection |
+| Model                     | Description                                  |
+|--------------------------|----------------------------------------------|
+| Naive Bayes              | Baseline with TF-IDF                         |
+| Logistic Regression      | Classic ML model with TF-IDF features        |
+| SVM (LinearSVC)          | Margin-based classifier using TF-IDF         |
+| DistilBERT               | Fine-tuned transformer via Hugging Face      |
+| Zero-Shot Classification | BART-based (facebook/bart-large-mnli)        |
 
 ---
 
 ## 🛠️ Technologies
 
-- `scikit-learn`, `pandas`, `numpy`, `matplotlib`  
-- `transformers`, `torch`, `datasets`  
-- Azure ML, Azure OpenAI, Azure Content Moderator API
+- Python, pandas, numpy, matplotlib  
+- scikit-learn (for classic ML models)  
+- Hugging Face Transformers (DistilBERT & BART)  
+- PyTorch  
+- Confusion matrices, zero-shot pipeline
 
 ---
 
 ## 🧪 Evaluation Metrics
 
 - Accuracy  
-- Precision & Recall (especially for toxic class)  
+- Precision and Recall (for Toxic class)  
 - F1-Score  
-- Confusion Matrix (Logistic Regression example shown)
+- Confusion Matrices
 
 ---
 
@@ -43,15 +46,18 @@ This project compares classic ML models and transformer-based models on the [Jig
 
 | Model               | Precision (Toxic) | Recall (Toxic) | Accuracy |
 |--------------------|-------------------|----------------|----------|
-| Naive Bayes        | 65%               | 55%            | 91%      |
+| Naive Bayes        | ~65%              | ~55%           | ~91%     |
 | Logistic Regression| 72%               | 60%            | 93%      |
+| SVM (LinearSVC)    | ~72%              | ~60%           | 93%      |
 | DistilBERT         | 79%               | 71%            | 95%      |
 
 ---
 
-## 🚀 How to Run
+## 🚀 Running the Code
 
 ```bash
 # Install dependencies
 pip install -r requirements.txt
 
+# Run the main detection script
+python toxic_detector.py
