@@ -1,5 +1,4 @@
 # Toxic Language Detection Project
-# Full Code - Ready for Submission
 
 # Install needed packages (uncomment if needed)
 # !pip install pandas numpy scikit-learn matplotlib transformers torch
@@ -14,6 +13,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification, Trainer, TrainingArguments
 import torch
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Step 1: Load Dataset
 print("Loading data...")
@@ -82,13 +83,15 @@ train_dataset = ToxicDataset(train_encodings, train_labels)
 test_dataset = ToxicDataset(test_encodings, test_labels)
 
 model = DistilBertForSequenceClassification.from_pretrained("distilbert-base-uncased", num_labels=2)
+model.to(device)
+print(f"Using device: {device}")
 
 training_args = TrainingArguments(
     output_dir='./results',
     num_train_epochs=2,
     per_device_train_batch_size=16,
     per_device_eval_batch_size=16,
-    evaluation_strategy="epoch",
+    #evaluation_strategy="epoch",
     save_strategy="no",
     logging_dir='./logs',
     logging_steps=10,
