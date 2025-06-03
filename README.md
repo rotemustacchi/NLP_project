@@ -55,5 +55,3 @@ This project compares classic ML models and transformer-based models on the [Jig
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the detection script
-python toxic_detector.py
