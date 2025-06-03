@@ -10,8 +10,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
-from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification, Trainer, TrainingArguments
+from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification, Trainer, TrainingArguments, pipeline
 import torch
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -55,6 +56,15 @@ logreg_preds = logreg_model.predict(X_test_tfidf)
 print("\nLogistic Regression Classification Report:")
 print(classification_report(y_test, logreg_preds))
 
+# Step 4.5: SVM (Linear Support Vector Classifier)
+print("Training SVM...")
+svm_model = LinearSVC()
+svm_model.fit(X_train_tfidf, y_train)
+svm_preds = svm_model.predict(X_test_tfidf)
+
+print("\nSVM Classification Report:")
+print(classification_report(y_test, svm_preds))
+
 # Step 5: DistilBERT Fine-tuning
 print("Preparing DistilBERT model...")
 tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
@@ -91,7 +101,7 @@ training_args = TrainingArguments(
     num_train_epochs=2,
     per_device_train_batch_size=16,
     per_device_eval_batch_size=16,
-    #evaluation_strategy="epoch",
+    # evaluation_strategy="epoch",
     save_strategy="no",
     logging_dir='./logs',
     logging_steps=10,
@@ -109,16 +119,43 @@ trainer.train()
 
 print("Evaluating DistilBERT...")
 preds_output = trainer.predict(test_dataset)
-preds = np.argmax(preds_output.predictions, axis=-1)
+bert_preds = np.argmax(preds_output.predictions, axis=-1)
 
 print("\nDistilBERT Classification Report:")
-print(classification_report(test_labels, preds))
+print(classification_report(test_labels, bert_preds))
 
-# Step 6: Confusion Matrix 
-print("Plotting confusion matrix...")
-cm = confusion_matrix(y_test, logreg_preds)
-ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['Non-Toxic', 'Toxic']).plot()
+# Step 6: Confusion Matrices
+print("Plotting confusion matrices...")
+
+# Logistic Regression
+cm_logreg = confusion_matrix(y_test, logreg_preds)
+ConfusionMatrixDisplay(confusion_matrix=cm_logreg, display_labels=['Non-Toxic', 'Toxic']).plot()
 plt.title("Confusion Matrix - Logistic Regression")
 plt.show()
+
+# SVM
+cm_svm = confusion_matrix(y_test, svm_preds)
+ConfusionMatrixDisplay(confusion_matrix=cm_svm, display_labels=['Non-Toxic', 'Toxic']).plot()
+plt.title("Confusion Matrix - SVM")
+plt.show()
+
+# DistilBERT
+cm_bert = confusion_matrix(test_labels, bert_preds)
+ConfusionMatrixDisplay(confusion_matrix=cm_bert, display_labels=['Non-Toxic', 'Toxic']).plot()
+plt.title("Confusion Matrix - DistilBERT")
+plt.show()
+
+# Step 7: Zero-Shot Learning
+print("Running Zero-Shot Classification...")
+zsl_classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+
+sample_text = "You are a complete idiot and no one likes you"
+candidate_labels = ["toxic", "non-toxic", "neutral"]
+
+zsl_result = zsl_classifier(sample_text, candidate_labels)
+
+print("\nZero-Shot Classification Result:")
+for label, score in zip(zsl_result["labels"], zsl_result["scores"]):
+    print(f"{label}: {score:.4f}")
 
 print("Done!")
