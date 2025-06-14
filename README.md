@@ -4,9 +4,6 @@
 ## 📜 Description
 Detect toxic language in online chats to maintain safe digital environments.
 
-## 📊 Visual Abstract
-![Toxic Language Detection Visual Abstract](./fc8cdd74-e49d-4abf-9232-0a5c6f410f55.png)
-
 ## 📊 Dataset
 - Jigsaw Toxic Comment Classification Challenge (Kaggle)
 
