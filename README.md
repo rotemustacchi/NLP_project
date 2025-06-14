@@ -1,63 +1,39 @@
-# 🧪 Toxic Language Detection
 
-Detecting toxic messages in online chat using multiple NLP models and zero-shot classification.
+# 🧠 Toxic Language Detection in Online Chats
 
----
+## 📜 Description
+Detect toxic language in online chats to maintain safe digital environments.
 
-## 📂 Dataset
+## 📊 Visual Abstract
+![Toxic Language Detection Visual Abstract](./fc8cdd74-e49d-4abf-9232-0a5c6f410f55.png)
 
-- Source: [Jigsaw Toxic Comment Classification Challenge (Kaggle)](https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge)  
-- 150,000+ comments labeled as toxic (1) or non-toxic (0)
+## 📊 Dataset
+- Jigsaw Toxic Comment Classification Challenge (Kaggle)
 
----
+## 🔥 Models Compared
+- Naive Bayes (~91% accuracy)
+- Logistic Regression (~93% accuracy)
+- Support Vector Machine (SVM) (~93% accuracy)
+- DistilBERT Fine-tuning (~96% accuracy)
+- Zero-Shot Classification with BART (~96% accuracy)
 
-## 🧠 Models Used
+## 🎯 Evaluation Metrics
+- Accuracy
+- Precision
+- Recall
+- F1 Score
 
-| Model                     | Description                                  |
-|--------------------------|----------------------------------------------|
-| Naive Bayes              | Baseline with TF-IDF                         |
-| Logistic Regression      | Classic ML model with TF-IDF features        |
-| SVM (LinearSVC)          | Margin-based classifier using TF-IDF         |
-| DistilBERT               | Fine-tuned transformer via Hugging Face      |
-| Zero-Shot Classification | BART-based (facebook/bart-large-mnli)        |
-
----
-
-## 🛠️ Technologies
-
-- Python, pandas, numpy, matplotlib  
-- scikit-learn (for classic ML models)  
-- Hugging Face Transformers (DistilBERT & BART)  
-- PyTorch  
-- Confusion matrices, zero-shot pipeline
-
----
-
-## 🧪 Evaluation Metrics
-
-- Accuracy  
-- Precision and Recall (for Toxic class)  
-- F1-Score  
-- Confusion Matrices
-
----
-
-## 📊 Sample Results
-
-| Model               | Precision (Toxic) | Recall (Toxic) | Accuracy |
-|--------------------|-------------------|----------------|----------|
-| Naive Bayes        | ~65%              | ~55%           | ~91%     |
-| Logistic Regression| 72%               | 60%            | 93%      |
-| SVM (LinearSVC)    | ~72%              | ~60%           | 93%      |
-| DistilBERT         | 79%               | 71%            | 95%      |
-
----
-
-## 🚀 Running the Code
-
+## 🛠️ Installation
 ```bash
-# Install dependencies
 pip install -r requirements.txt
+```
 
-# Run the main detection script
-python toxic_detector.py
+## 🚀 How to Run
+```bash
+python main.py
+```
+
+## 👨‍💻 Team
+- Ron Butbul  
+- Rotem Mustacchi  
+- Yuval Horesh
